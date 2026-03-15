@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timezone
 
-from pydantic import EmailStr
+from pydantic import EmailStr, field_validator
 from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship, SQLModel
 
@@ -16,6 +16,12 @@ class UserBase(SQLModel):
     is_active: bool = True
     is_superuser: bool = False
     full_name: str | None = Field(default=None, max_length=255)
+
+    @field_validator("email")
+    @classmethod
+    def email_validator(cls, value: EmailStr) -> EmailStr:
+        """Make sure the email is lower cased."""
+        return value.lower()
 
 
 # Properties to receive via API on creation
