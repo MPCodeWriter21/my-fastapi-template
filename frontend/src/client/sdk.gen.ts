@@ -119,7 +119,8 @@ export class ItemsService {
 export class LoginService {
     /**
      * Login Access Token
-     * OAuth2 compatible token login, get an access token for future requests
+     * OAuth2 compatible token login, get an access token for future
+     * requests.
      * @param data The data for the request.
      * @param data.formData
      * @returns Token Successful Response
@@ -139,7 +140,7 @@ export class LoginService {
     
     /**
      * Test Token
-     * Test access token
+     * Test access token.
      * @returns UserPublic Successful Response
      * @throws ApiError
      */
@@ -152,7 +153,7 @@ export class LoginService {
     
     /**
      * Recover Password
-     * Password Recovery
+     * Password Recovery.
      * @param data The data for the request.
      * @param data.email
      * @returns Message Successful Response
@@ -173,7 +174,7 @@ export class LoginService {
     
     /**
      * Reset Password
-     * Reset password
+     * Reset password.
      * @param data The data for the request.
      * @param data.requestBody
      * @returns Message Successful Response
@@ -193,7 +194,7 @@ export class LoginService {
     
     /**
      * Recover Password Html Content
-     * HTML Content for Password Recovery
+     * HTML Content for Password Recovery.
      * @param data The data for the request.
      * @param data.email
      * @returns string Successful Response

@@ -35,9 +35,7 @@ router = APIRouter(prefix="/users", tags=["users"])
     response_model=UsersPublic,
 )
 def read_users(session: SessionDep, skip: int = 0, limit: int = 100) -> Any:
-    """
-    Retrieve users.
-    """
+    """Retrieve users."""
 
     count_statement = select(func.count()).select_from(User)
     count = session.exec(count_statement).one()
@@ -54,9 +52,7 @@ def read_users(session: SessionDep, skip: int = 0, limit: int = 100) -> Any:
     "/", dependencies=[Depends(get_current_active_superuser)], response_model=UserPublic
 )
 def create_user(*, session: SessionDep, user_in: UserCreate) -> Any:
-    """
-    Create new user.
-    """
+    """Create new user."""
     user = crud.get_user_by_email(session=session, email=user_in.email)
     if user:
         raise HTTPException(
@@ -81,9 +77,7 @@ def create_user(*, session: SessionDep, user_in: UserCreate) -> Any:
 def update_user_me(
     *, session: SessionDep, user_in: UserUpdateMe, current_user: CurrentUser
 ) -> Any:
-    """
-    Update own user.
-    """
+    """Update own user."""
 
     if user_in.email:
         existing_user = crud.get_user_by_email(session=session, email=user_in.email)
@@ -103,9 +97,7 @@ def update_user_me(
 def update_password_me(
     *, session: SessionDep, body: UpdatePassword, current_user: CurrentUser
 ) -> Any:
-    """
-    Update own password.
-    """
+    """Update own password."""
     verified, _ = verify_password(body.current_password, current_user.hashed_password)
     if not verified:
         raise HTTPException(status_code=400, detail="Incorrect password")
@@ -122,17 +114,13 @@ def update_password_me(
 
 @router.get("/me", response_model=UserPublic)
 def read_user_me(current_user: CurrentUser) -> Any:
-    """
-    Get current user.
-    """
+    """Get current user."""
     return current_user
 
 
 @router.delete("/me", response_model=Message)
 def delete_user_me(session: SessionDep, current_user: CurrentUser) -> Any:
-    """
-    Delete own user.
-    """
+    """Delete own user."""
     if current_user.is_superuser:
         raise HTTPException(
             status_code=403, detail="Super users are not allowed to delete themselves"
@@ -144,9 +132,7 @@ def delete_user_me(session: SessionDep, current_user: CurrentUser) -> Any:
 
 @router.post("/signup", response_model=UserPublic)
 def register_user(session: SessionDep, user_in: UserRegister) -> Any:
-    """
-    Create new user without the need to be logged in.
-    """
+    """Create new user without the need to be logged in."""
     user = crud.get_user_by_email(session=session, email=user_in.email)
     if user:
         raise HTTPException(
@@ -162,9 +148,7 @@ def register_user(session: SessionDep, user_in: UserRegister) -> Any:
 def read_user_by_id(
     user_id: uuid.UUID, session: SessionDep, current_user: CurrentUser
 ) -> Any:
-    """
-    Get a specific user by id.
-    """
+    """Get a specific user by id."""
     user = session.get(User, user_id)
     if user == current_user:
         return user
@@ -189,9 +173,7 @@ def update_user(
     user_id: uuid.UUID,
     user_in: UserUpdate,
 ) -> Any:
-    """
-    Update a user.
-    """
+    """Update a user."""
 
     db_user = session.get(User, user_id)
     if not db_user:
@@ -214,9 +196,7 @@ def update_user(
 def delete_user(
     session: SessionDep, current_user: CurrentUser, user_id: uuid.UUID
 ) -> Message:
-    """
-    Delete a user.
-    """
+    """Delete a user."""
     user = session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")

@@ -94,7 +94,8 @@ def test_update_user(db: Session) -> None:
 
 
 def test_authenticate_user_with_bcrypt_upgrades_to_argon2(db: Session) -> None:
-    """Test that a user with bcrypt password hash gets upgraded to argon2 on login."""
+    """Test that a user with bcrypt password hash gets upgraded to argon2 on
+    login."""
     email = random_email()
     password = random_lower_string()
 

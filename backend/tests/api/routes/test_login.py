@@ -129,7 +129,8 @@ def test_reset_password_invalid_token(
 def test_login_with_bcrypt_password_upgrades_to_argon2(
     client: TestClient, db: Session
 ) -> None:
-    """Test that logging in with a bcrypt password hash upgrades it to argon2."""
+    """Test that logging in with a bcrypt password hash upgrades it to
+    argon2."""
     email = random_email()
     password = random_lower_string()
 
