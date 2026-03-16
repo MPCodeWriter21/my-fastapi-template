@@ -3,6 +3,7 @@
 set -e
 set -x
 
-mypy app
+# TODO: Add this when ty is stable and configurable enough
+# + ty check app
 ruff check app
 ruff format app --check
